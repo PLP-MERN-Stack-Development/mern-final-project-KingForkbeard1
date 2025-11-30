@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <div class="form-container">
+            <h2 class="section-title">My Messages</h2>
+            <p class="section-subtitle">Communicate with buyers and sellers</p>
+
+            <div class="messages-container">
+                <div class="messages-sidebar">
+                    <h3>Conversations</h3>
+                    <div id="conversations-list">
+                        <!-- Conversations will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="messages-main">
+                    <div id="messages-thread">
+                        <div class="no-conversation">
+                            <p>Select a conversation to view messages</p>
+                        </div>
+                    </div>
+
+                    <div id="reply-form" style="display: none;">
+                        <form onsubmit="sendReply(event)">
+                            <div class="form-group">
+                                <label for="reply-message">Your Reply</label>
+                                <textarea id="reply-message" name="message" required placeholder="Type your message here..." rows="4"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Reply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.messages-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.messages-sidebar {
+    background: var(--bg-light);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.messages-sidebar h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.conversation-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.conversation-item:hover {
+    background: var(--white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.conversation-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.conversation-item.unread {
+    font-weight: bold;
+    border-left: 4px solid var(--primary-color);
+}
+
+.messages-main {
+    background: var(--bg-light);
+    padding: 1rem;
+    border-radius: 8px;
+    min-height: 400px;
+}
+
+.message-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.message-item.sent {
+    background: var(--primary-color);
+    color: white;
+    margin-left: 2rem;
+}
+
+.message-item.received {
+    background: var(--white);
+    margin-right: 2rem;
+}
+
+.message-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.message-time {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.no-conversation {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+    .messages-container {
+        grid-template-columns: 1fr;
+    }
+
+    .messages-sidebar {
+        order: 2;
+    }
+
+    .messages-main {
+        order: 1;
+    }
+}
+</style>
+
+<script>
+let currentConversationId = null;
+const currentUserId = {{ current_user.id }};
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadConversations();
+});
+
+function loadConversations() {
+    fetch('/api/conversations')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('conversations-list');
+            container.innerHTML = '';
+
+            if (data.conversations.length === 0) {
+                container.innerHTML = '<p>No conversations yet.</p>';
+                return;
+            }
+
+            data.conversations.forEach(conv => {
+                const convDiv = document.createElement('div');
+                convDiv.className = `conversation-item ${conv.unread_count > 0 ? 'unread' : ''} ${conv.id === currentConversationId ? 'active' : ''}`;
+                convDiv.onclick = () => loadConversation(conv.id);
+
+                convDiv.innerHTML = `
+                    <div class="message-header">${conv.other_user_name}</div>
+                    <div style="font-size: 0.9rem;">${conv.last_message}</div>
+                    <div class="message-time">${conv.last_message_time}</div>
+                    ${conv.unread_count > 0 ? `<span style="color: var(--primary-color); font-weight: bold;">${conv.unread_count} new</span>` : ''}
+                `;
+
+                container.appendChild(convDiv);
+            });
+        })
+        .catch(error => console.error('Error loading conversations:', error));
+}
+
+function loadConversation(conversationId) {
+    currentConversationId = conversationId;
+
+    fetch(`/api/conversation/${conversationId}`)
+        .then(response => response.json())
+        .then(data => {
+            const thread = document.getElementById('messages-thread');
+            const replyForm = document.getElementById('reply-form');
+
+            thread.innerHTML = data.messages.map(msg => {
+                const isSent = msg.sender_id === currentUserId;
+                return `
+                    <div class="message-item ${isSent ? 'sent' : 'received'}">
+                        <div class="message-header">${msg.sender_name}</div>
+                        <div>${msg.message}</div>
+                        <div class="message-time">${msg.sent_at}</div>
+                    </div>
+                `;
+            }).join('');
+
+            replyForm.style.display = 'block';
+            document.getElementById('reply-message').value = '';
+
+            // Mark messages as read
+            fetch(`/api/mark_conversation_read/${conversationId}`, { method: 'POST' })
+                .then(() => loadConversations());
+        })
+        .catch(error => console.error('Error loading conversation:', error));
+}
+
+function sendReply(event) {
+    event.preventDefault();
+
+    const message = document.getElementById('reply-message').value;
+
+    fetch(`/api/send_message/${currentConversationId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            loadConversation(currentConversationId);
+        } else {
+            alert('Error sending message');
+        }
+    })
+    .catch(error => console.error('Error sending message:', error));
+}
+</script>
+{% endblock %}
+
+{% block title %}Messages - BLACKOUT MARKETPLACE{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="cart-section">
+    <div class="container">
+        <h2 class="section-title">Your Cart</h2>
+        <p class="section-subtitle">Items you've added to your cart</p>
+
+        <div class="cart-items">
+            {% if items %}
+                {% for item_data in items %}
+                <div class="cart-item">
+                    <div>
+                        <h3>{{ item_data.item.title }}</h3>
+                        <p>{{ item_data.item.description }}</p>
+                        <p>Quantity: {{ item_data.quantity }}</p>
+                        <p>Price: ${{ "%.2f"|format(item_data.item.price * item_data.quantity) }}</p>
+                    </div>
+                    <a href="{{ url_for('remove_from_cart', item_id=item_data.item.id) }}" class="btn btn-sm" style="background: #ff4444; color: white;">Remove</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h3>Your cart is empty</h3>
+                    <p>Start adding services you're interested in!</p>
+                    <a href="{{ url_for('home') }}" class="btn btn-primary" style="margin-top: 1rem;">Browse Services</a>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if items %}
+        <div class="cart-checkout" style="margin-top: 2rem; text-align: center;">
+            <h3>Ready to Checkout?</h3>
+            <p>Total: ${{ "%.2f"|format(total) }}</p>
+            <button class="btn btn-primary" onclick="checkout()">Complete Purchase</button>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+function checkout() {
+    if (confirm('Are you sure you want to complete the purchase?')) {
+        // In a real app, this would redirect to payment
+        alert('Thank you for your purchase! Your order has been placed.');
+        window.location.href = '{{ url_for("home") }}';
+    }
+}
+</script>
+{% endblock %}
+
+{% block title %}Cart - BLACKOUT MARKETPLACE{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - Instagram Marketplace{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 350px; margin-top: 50px;">
+    <div style="background: white; border: 1px solid #dbdbdb; border-radius: 8px; padding: 40px 40px 20px;">
+        <h1 style="text-align: center; font-size: 32px; margin-bottom: 24px; color: #333;">Instagram Market</h1>
+        <p style="text-align: center; color: #8e8e8e; margin-bottom: 24px; font-size: 14px;">
+            Sign up to buy and sell products
+        </p>
+
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Username" required minlength="3" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+
+            <div class="form-group">
+                <input type="tel" name="phone" class="form-control" placeholder="Phone number (optional)">
+            </div>
+
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Password" required minlength="6">
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%; margin-bottom: 16px;">Sign Up</button>
+        </form>
+
+        <div style="text-align: center; margin: 20px 0; color: #8e8e8e; position: relative;">
+            <span style="background: white; padding: 0 16px; position: relative; z-index: 1;">OR</span>
+            <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #dbdbdb;"></div>
+        </div>
+
+        <div style="text-align: center;">
+            <p style="color: #8e8e8e; font-size: 14px;">
+                Have an account?
+                <a href="{{ url_for('login') }}" style="color: #0095f6; text-decoration: none; font-weight: 600;">Log in</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

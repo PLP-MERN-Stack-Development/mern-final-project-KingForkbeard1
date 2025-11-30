@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - Instagram Marketplace{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <div style="background: white; border: 1px solid #dbdbdb; border-radius: 8px; padding: 40px;">
+        <h1 style="text-align: center; margin-bottom: 30px; color: #333;">Edit Profile</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="username">Username *</label>
+                <input type="text" id="username" name="username" class="form-control" value="{{ current_user.username }}" required minlength="3" maxlength="20">
+                <small style="color: #8e8e8e; font-size: 12px;">This will be your public username</small>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" class="form-control" rows="3" maxlength="150" placeholder="Tell people about yourself...">{{ current_user.bio or '' }}</textarea>
+                <small style="color: #8e8e8e; font-size: 12px;">{{ (current_user.bio or '')|length }}/150 characters</small>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="+254 700 000 000">
+                <small style="color: #8e8e8e; font-size: 12px;">Buyers can contact you using this number</small>
+            </div>
+
+            <div class="form-group">
+                <label for="profile_pic">Profile Picture</label>
+                <input type="file" id="profile_pic" name="profile_pic" accept="image/*" style="width: 100%; padding: 8px; border: 1px solid #dbdbdb; border-radius: 4px;">
+                <small style="color: #8e8e8e; font-size: 12px;">Upload a new profile picture (optional)</small>
+                <div style="margin-top: 8px;">
+                    <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_pic) }}" alt="Current profile pic" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 1px solid #dbdbdb;">
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button type="submit" class="btn" style="width: 100%; margin-bottom: 16px;">Save Changes</button>
+                <a href="{{ url_for('profile', username=current_user.username) }}" class="btn btn-secondary" style="width: 100%;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Character count for bio
+document.getElementById('bio').addEventListener('input', function(e) {
+    const counter = e.target.nextElementSibling;
+    const length = e.target.value.length;
+    counter.textContent = `${length}/150 characters`;
+
+    if (length > 150) {
+        counter.style.color = '#ed4956';
+    } else {
+        counter.style.color = '#8e8e8e';
+    }
+});
+
+// Preview profile picture
+document.getElementById('profile_pic').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            e.target.value = '';
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) { // 5MB
+            alert('File size must be less than 5MB');
+            e.target.value = '';
+            return;
+        }
+    }
+});
+</script>
+{% endblock %}

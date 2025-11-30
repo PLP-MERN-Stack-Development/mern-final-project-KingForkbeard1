@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Create Post - Instagram Marketplace{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <div style="background: white; border: 1px solid #dbdbdb; border-radius: 8px; padding: 40px;">
+        <h1 style="text-align: center; margin-bottom: 30px; color: #333;">Create New Post</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">Product Image *</label>
+                <input type="file" id="image" name="image" accept="image/*" required style="width: 100%; padding: 8px; border: 1px solid #dbdbdb; border-radius: 4px;">
+                <small style="color: #8e8e8e; font-size: 12px;">Upload a clear image of your product from your device</small>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Product Description *</label>
+                <textarea id="description" name="description" class="form-control" rows="4" placeholder="Describe your product..." required maxlength="500"></textarea>
+                <small style="color: #8e8e8e; font-size: 12px;">Tell buyers about your product's features, condition, and what makes it special</small>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price in KES *</label>
+                <input type="number" id="price" name="price" class="form-control" placeholder="0" required min="1" max="10000000">
+                <small style="color: #8e8e8e; font-size: 12px;">Enter the price in Kenyan Shillings (KES)</small>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button type="submit" class="btn" style="width: 100%;">Share Product</button>
+            </div>
+        </form>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('home') }}" style="color: #8e8e8e; text-decoration: none;">Cancel</a>
+        </div>
+    </div>
+</div>
+
+<script>
+// Preview image before upload
+document.getElementById('image').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        // Basic validation
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            e.target.value = '';
+            return;
+        }
+
+        if (file.size > 16 * 1024 * 1024) { // 16MB
+            alert('File size must be less than 16MB');
+            e.target.value = '';
+            return;
+        }
+    }
+});
+
+// Format price input
+document.getElementById('price').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/,/g, '');
+    if (value && !isNaN(value)) {
+        e.target.value = parseInt(value).toLocaleString();
+    }
+});
+</script>
+{% endblock %}

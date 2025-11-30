@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Feed - Instagram Marketplace{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if explore %}
+        <h1 style="text-align: center; margin-bottom: 30px; color: #333;">Explore All Products</h1>
+    {% else %}
+        <h1 style="text-align: center; margin-bottom: 30px; color: #333;">Your Feed</h1>
+    {% endif %}
+
+    {% if posts %}
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="post-header">
+                <div class="post-user">
+                    <img src="{{ url_for('static', filename='profile_pics/' + post.author.profile_pic) }}" alt="{{ post.author.username }}">
+                    <a href="{{ url_for('profile', username=post.author.username) }}" style="text-decoration: none; color: inherit;">
+                        <strong>{{ post.author.username }}</strong>
+                    </a>
+                </div>
+                <span class="time-ago" datetime="{{ post.created_at.isoformat() }}">{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            </div>
+
+            <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="Product image" class="post-image">
+
+            <div class="post-actions">
+                <button class="like-btn {{ 'liked' if current_user in post.likes|map(attribute='user') else '' }}"
+                        onclick="toggleLike({{ post.id }}, this)">
+                    ❤️
+                </button>
+                <a href="{{ url_for('post_detail', post_id=post.id) }}" style="color: #333; text-decoration: none;">💬</a>
+            </div>
+
+            <div class="likes-count">
+                <span id="likes-count-{{ post.id }}">{{ post.likes_count }}</span> likes
+            </div>
+
+            <div class="post-description">
+                <strong>{{ post.author.username }}</strong> {{ post.description }}
+                <div class="price-tag" style="margin-top: 8px;">KES {{ "{:,}".format(post.price) }}</div>
+            </div>
+
+            <div class="comments-section">
+                {% if post.comments %}
+                    {% for comment in post.comments[:2] %}
+                    <div class="comment">
+                        <strong>{{ comment.user.username }}</strong> {{ comment.text }}
+                        <span class="time-ago" datetime="{{ comment.created_at.isoformat() }}" style="font-size: 12px; color: #8e8e8e; margin-left: 8px;">
+                            {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                    {% if post.comments_count > 2 %}
+                    <a href="{{ url_for('post_detail', post_id=post.id) }}" style="color: #8e8e8e; font-size: 14px; text-decoration: none;">
+                        View all {{ post.comments_count }} comments
+                    </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <form class="comment-form" onsubmit="addComment(event, {{ post.id }})">
+                <input type="text" class="comment-input" placeholder="Add a comment..." required>
+                <button type="submit" class="comment-submit">Post</button>
+            </form>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 8px; border: 1px solid #dbdbdb;">
+            <h2 style="color: #8e8e8e; margin-bottom: 16px;">No posts yet</h2>
+            <p style="color: #8e8e8e; margin-bottom: 24px;">
+                {% if explore %}
+                    Be the first to share a product!
+                {% else %}
+                    Follow some users or create your first post to see content here.
+                {% endif %}
+            </p>
+            <a href="{{ url_for('create_post') }}" class="btn">Create Your First Post</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function toggleLike(postId, btn) {
+    fetch(`/like/${postId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const likesCount = document.getElementById(`likes-count-${postId}`);
+        likesCount.textContent = data.likes_count;
+
+        if (data.liked) {
+            btn.classList.add('liked');
+        } else {
+            btn.classList.remove('liked');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function addComment(event, postId) {
+    event.preventDefault();
+    const form = event.target;
+    const input = form.querySelector('.comment-input');
+    const comment = input.value.trim();
+
+    if (!comment) return;
+
+    fetch(`/comment/${postId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `comment=${encodeURIComponent(comment)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Reload the page to show the new comment
+            location.reload();
+        } else {
+            alert('Error adding comment');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error adding comment');
+    });
+}
+</script>
+{% endblock %}

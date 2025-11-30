@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKOUT MARKETPLACE - Find & Hire Professionals</title>
+    <meta name="description" content="Connect with talented professionals in graphic design, photography, and fashion design. Your creative marketplace.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #ff7b00;
+            --primary-dark: #e66d00;
+            --primary-light: #ff9933;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(255, 123, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "🛍";
+            font-size: 2rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.9), rgba(230, 109, 0, 0.8)), 
+                        url('hero-image.jpg') center/cover;
+            color: var(--white);
+            padding: 8rem 20px 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--white);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--white);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Search Bar */
+        .search-section {
+            background: var(--bg-light);
+            padding: 3rem 20px;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            background: var(--white);
+            padding: 0.5rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            outline: none;
+            border-radius: 50px;
+        }
+
+        .search-bar button {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .service-card-content {
+            padding: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Form Sections */
+        .form-section {
+            padding: 5rem 20px;
+            background: var(--bg-light);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Cart Section */
+        .cart-section {
+            padding: 5rem 20px;
+        }
+
+        .cart-items {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .cart-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .cart-item button {
+            background: #ff4444;
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item button:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-light);
+        }
+
+        .empty-cart-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: var(--white);
+            padding: 3rem 20px 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #4CAF50;
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-content {
+            margin-top: 2rem;
+        }
+
+        .dashboard-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        .dashboard-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+            }
+
+            .header-content nav.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+
+            .search-bar input,
+            .search-bar button {
+                border-radius: 10px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 5rem 20px 4rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 0.8rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="header-content container">
+            <a href="#" class="logo" onclick="showPage('home')">Marketplace</a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <nav id="nav-menu">
+                <a onclick="showPage('home')">Home</a>
+                <a onclick="showPage('login')">Login</a>
+                <a onclick="showPage('signup')">Signup</a>
+                <a onclick="showPage('add-item')">Add Item</a>
+                <a onclick="showPage('cart')">Cart <span id="cart-count">(0)</span></a>
+                <a onclick="showPage('contact')">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Find Your Creative Professional</h1>
+                <p>Connect with talented designers, photographers, and fashion experts. Transform your vision into reality.</p>
+                <button class="btn" onclick="document.getElementById('search-input').focus()">Get Started</button>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="container">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search for services, designers, photographers..." />
+                    <button onclick="performSearch()">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services">
+            <div class="container">
+                <h2 class="section-title">Featured Services</h2>
+                <p class="section-subtitle">Discover talented professionals ready to bring your ideas to life</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <img src="service-graphic.jpg" alt="Graphic Design Services">
+                        <div class="service-card-content">
+                            <h3>Graphic Design</h3>
+                            <p>Professional logo design, branding, and visual identity services. Transform your brand with stunning graphics that capture attention and communicate your message effectively.</p>
+                            <div class="card-buttons">
+                                <button class="btn btn-sm btn-primary" onclick="saveItem('Graphic Design', 'Professional graphic design and branding services')">Save for later</button>
+                                <button class="btn btn-sm btn-outline" onclick="showPage('contact')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <img src="service-photo.jpg" alt="Photography Services">
+                        <div class="service-card-content">
+                            <h3>Photography</h3>
+                            <p>Expert photography services for events, products, and portraits. High-quality images that tell your story and showcase your products in the best light possible.</p>
+                            <div class="card-buttons">
+                                <button class="btn btn-sm btn-primary" onclick="saveItem('Photography', 'Professional photography for all occasions')">Save for later</button>
+                                <button class="btn btn-sm btn-outline" onclick="showPage('contact')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <img src="service-fashion.jpg" alt="Fashion Design Services">
+                        <div class="service-card-content">
+                            <h3>Fashion Design</h3>
+                            <p>Custom fashion design and styling services. From concept to creation, we bring your fashion vision to life with unique, tailored designs that stand out.</p>
+                            <div class="card-buttons">
+                                <button class="btn btn-sm btn-primary" onclick="saveItem('Fashion Design', 'Custom fashion design and styling')">Save for later</button>
+                                <button class="btn btn-sm btn-outline" onclick="showPage('contact')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page hidden">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <h2 class="section-title">Welcome Back</h2>
+                    <p class="section-subtitle">Login to your account</p>
+                    
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" required placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required placeholder="Enter your password">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                        
+                        <p style="text-align: center; margin-top: 1rem; color: var(--text-light);">
+                            Don't have an account? <a href="#" onclick="showPage('signup')" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Sign up</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup-page" class="page hidden">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <h2 class="section-title">Create Account</h2>
+                    <p class="section-subtitle">Join our creative community</p>
+                    
+                    <form onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" required placeholder="John Doe">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" required placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" required placeholder="Create a strong password" minlength="8">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" required placeholder="Confirm your password">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                        
+                        <p style="text-align: center; margin-top: 1rem; color: var(--text-light);">
+                            Already have an account? <a href="#" onclick="showPage('login')" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Login</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add Item Page -->
+    <div id="add-item-page" class="page hidden">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <h2 class="section-title">Add Your Item</h2>
+                    <p class="section-subtitle">List your service or product</p>
+                    
+                    <form onsubmit="handleAddItem(event)">
+                        <div class="form-group">
+                            <label for="item-title">Item Title</label>
+                            <input type="text" id="item-title" required placeholder="E.g., Professional Logo Design">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item-category">Category</label>
+                            <select id="item-category" required>
+                                <option value="">Select a category</option>
+                                <option value="graphic-design">Graphic Design</option>
+                                <option value="photography">Photography</option>
+                                <option value="fashion-design">Fashion Design</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item-price">Price ($)</label>
+                            <input type="number" id="item-price" required placeholder="0.00" min="0" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item-description">Description</label>
+                            <textarea id="item-description" required placeholder="Describe your service or product in detail..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item-image">Image URL (optional)</label>
+                            <input type="url" id="item-image" placeholder="https://example.com/image.jpg">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Item</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cart-page" class="page hidden">
+        <section class="cart-section">
+            <div class="container">
+                <h2 class="section-title">Saved Items</h2>
+                <p class="section-subtitle">Your favorite services and products</p>
+
+                <div id="cart-items" class="cart-items">
+                    <!-- Cart items will be added here dynamically -->
+                </div>
+
+                <div class="cart-checkout" id="cart-checkout" style="display: none; margin-top: 2rem; text-align: center;">
+                    <h3>Ready to Checkout?</h3>
+                    <p>Total items: <span id="checkout-count">0</span></p>
+                    <button class="btn btn-primary" onclick="checkout()">Complete Purchase</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact-page" class="page hidden">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <h2 class="section-title">Get in Touch</h2>
+                    <p class="section-subtitle">Contact a service provider</p>
+
+                    <form onsubmit="handleContact(event)">
+                        <div class="form-group">
+                            <label for="contact-name">Your Name</label>
+                            <input type="text" id="contact-name" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-email">Your Email</label>
+                            <input type="email" id="contact-email" required placeholder="your.email@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-service">Service Interested In</label>
+                            <select id="contact-service" required>
+                                <option value="">Select a service</option>
+                                <option value="graphic-design">Graphic Design</option>
+                                <option value="photography">Photography</option>
+                                <option value="fashion-design">Fashion Design</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-message">Your Message</label>
+                            <textarea id="contact-message" required placeholder="Tell us about your project..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="page hidden">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <h2 class="section-title">My Dashboard</h2>
+                    <p class="section-subtitle">Welcome back, <span id="dashboard-name"></span>!</p>
+
+                    <div class="dashboard-content">
+                        <div class="dashboard-section">
+                            <h3>My Profile</h3>
+                            <p><strong>Name:</strong> <span id="profile-name"></span></p>
+                            <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                            <p><strong>Member since:</strong> <span id="profile-since"></span></p>
+                        </div>
+
+                        <div class="dashboard-section">
+                            <h3>My Saved Items</h3>
+                            <div id="user-saved-items"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Marketplace</h3>
+                    <p>Your trusted platform for connecting with creative professionals. We bring talent and vision together.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#" onclick="showPage('home')">Home</a>
+                    <a href="#" onclick="showPage('login')">Login</a>
+                    <a href="#" onclick="showPage('signup')">Sign Up</a>
+                    <a href="#" onclick="showPage('add-item')">Add Item</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <a href="#">Graphic Design</a>
+                    <a href="#">Photography</a>
+                    <a href="#">Fashion Design</a>
+                    <a href="#">Consulting</a>
+                </div>
+                
+                <div class="footer-section">
+                    
+    <h3>Contact Us</h3>
+    <p>Instagram: <a href="https://instagram.com/blaclout.innc" target="_blank">@blaclout.innc</a></p>
+    <p>WhatsApp: <a href="https://wa.me/254757329235" target="_blank">0757329235</a></p>
+    <p>Address: Runda, Thika</p>
+
+
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Creative Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cart management
+        let savedItems = JSON.parse(localStorage.getItem('savedItems')) || [];
+
+        // User management
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+        // Services data
+        let services = JSON.parse(localStorage.getItem('services')) || [
+            {
+                id: 1,
+                title: 'Graphic Design',
+                description: 'Professional logo design, branding, and visual identity services. Transform your brand with stunning graphics that capture attention and communicate your message effectively.',
+                image: 'service-graphic.jpg',
+                category: 'graphic-design'
+            },
+            {
+                id: 2,
+                title: 'Photography',
+                description: 'Expert photography services for events, products, and portraits. High-quality images that tell your story and showcase your products in the best light possible.',
+                image: 'service-photo.jpg',
+                category: 'photography'
+            },
+            {
+                id: 3,
+                title: 'Fashion Design',
+                description: 'Custom fashion design and styling services. From concept to creation, we bring your fashion vision to life with unique, tailored designs that stand out.',
+                image: 'service-fashion.jpg',
+                category: 'fashion-design'
+            }
+        ];
+
+        // Update header based on login status
+        function updateHeader() {
+            const nav = document.getElementById('nav-menu');
+            if (currentUser) {
+                nav.innerHTML = `
+                    <a onclick="showPage('home')">Home</a>
+                    <a onclick="showPage('dashboard')">Dashboard</a>
+                    <a onclick="showPage('add-item')">Add Item</a>
+                    <a onclick="showPage('cart')">Cart <span id="cart-count">(0)</span></a>
+                    <a onclick="showPage('contact')">Contact</a>
+                    <span>Welcome, ${currentUser.name}</span>
+                    <a onclick="logout()">Logout</a>
+                `;
+            } else {
+                nav.innerHTML = `
+                    <a onclick="showPage('home')">Home</a>
+                    <a onclick="showPage('login')">Login</a>
+                    <a onclick="showPage('signup')">Signup</a>
+                    <a onclick="showPage('add-item')">Add Item</a>
+                    <a onclick="showPage('cart')">Cart <span id="cart-count">(0)</span></a>
+                    <a onclick="showPage('contact')">Contact</a>
+                `;
+            }
+            updateCartCount();
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateHeader();
+            showPage('home');
+        }
+
+        // Render services
+        function renderServices(filterTerm = '') {
+            const container = document.querySelector('.services-grid');
+            const filteredServices = services.filter(service =>
+                service.title.toLowerCase().includes(filterTerm.toLowerCase()) ||
+                service.description.toLowerCase().includes(filterTerm.toLowerCase()) ||
+                service.category.toLowerCase().includes(filterTerm.toLowerCase())
+            );
+            container.innerHTML = filteredServices.map(service => `
+                <div class="service-card">
+                    <img src="${service.image}" alt="${service.title}">
+                    <div class="service-card-content">
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                        ${service.price ? `<p style="font-weight: bold; color: var(--primary-color);">$${service.price}</p>` : ''}
+                        <div class="card-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="saveItem('${service.title}', '${service.description}')">Save for later</button>
+                            <button class="btn btn-sm btn-outline" onclick="showPage('contact')">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render dashboard
+        function renderDashboard() {
+            if (!currentUser) {
+                showPage('login');
+                return;
+            }
+            const user = users.find(u => u.id === currentUser.id);
+            if (!user) return;
+
+            document.getElementById('dashboard-name').textContent = user.name;
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-email').textContent = user.email;
+            document.getElementById('profile-since').textContent = new Date(user.createdAt).toLocaleDateString();
+
+            const userSavedItems = savedItems.filter(item => item.userId === currentUser.id);
+            const savedContainer = document.getElementById('user-saved-items');
+            if (userSavedItems.length === 0) {
+                savedContainer.innerHTML = '<p>You haven\'t saved any items yet.</p>';
+            } else {
+                savedContainer.innerHTML = userSavedItems.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                            <small>Saved on: ${item.timestamp}</small>
+                        </div>
+                        <button onclick="removeItem(${item.id})">Remove</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateHeader();
+            updateCartCount();
+            renderCart();
+            renderServices();
+        });
+
+        // Navigation functions
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageId + '-page');
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Special handling for dashboard
+            if (pageId === 'dashboard') {
+                renderDashboard();
+            }
+
+            // Close mobile menu
+            const nav = document.getElementById('nav-menu');
+            nav.classList.remove('active');
+        }
+
+        function toggleMenu() {
+            const nav = document.getElementById('nav-menu');
+            nav.classList.toggle('active');
+        }
+
+        // Search function
+        async function performSearch() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            renderServices(searchTerm);
+            if (searchTerm) {
+                // Log search query to database
+                await logActivity('search', { searchTerm });
+            }
+        }
+
+        // Save item to cart
+        function saveItem(title, description) {
+            if (!currentUser) {
+                alert('Please login to save items!');
+                showPage('login');
+                return;
+            }
+
+            const item = {
+                id: Date.now(),
+                userId: currentUser.id,
+                title: title,
+                description: description,
+                timestamp: new Date().toLocaleDateString()
+            };
+
+            savedItems.push(item);
+            localStorage.setItem('savedItems', JSON.stringify(savedItems));
+            updateCartCount();
+
+            // Show success feedback
+            alert('✓ Item saved successfully!');
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            cartCount.textContent = '(' + savedItems.length + ')';
+        }
+
+        // Render cart items
+        function renderCart() {
+            const cartContainer = document.getElementById('cart-items');
+
+            if (savedItems.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Start saving services you're interested in!</p>
+                        <button class="btn btn-primary" onclick="showPage('home')" style="margin-top: 1rem;">Browse Services</button>
+                    </div>
+                `;
+                document.getElementById('cart-checkout').style.display = 'none';
+                return;
+            }
+
+            cartContainer.innerHTML = savedItems.map(item => `
+                <div class="cart-item">
+                    <div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <small style="color: var(--text-light);">Saved on: ${item.timestamp}</small>
+                    </div>
+                    <button onclick="removeItem(${item.id})">Remove</button>
+                </div>
+            `).join('');
+
+            document.getElementById('cart-checkout').style.display = 'block';
+            document.getElementById('checkout-count').textContent = savedItems.length;
+        }
+
+        // Remove item from cart
+        function removeItem(itemId) {
+            savedItems = savedItems.filter(item => item.id !== itemId);
+            localStorage.setItem('savedItems', JSON.stringify(savedItems));
+            updateCartCount();
+            renderCart();
+        }
+
+        // Checkout function
+        function checkout() {
+            if (!currentUser) {
+                alert('Please login to checkout!');
+                showPage('login');
+                return;
+            }
+
+            alert('Thank you for your purchase! Your order has been placed.');
+            savedItems = [];
+            localStorage.setItem('savedItems', JSON.stringify(savedItems));
+            updateCartCount();
+            renderCart();
+        }
+
+        // WhatsApp notification helper
+        async function sendWhatsAppNotification(data) {
+            try {
+                const response = await fetch('https://licqsiqmhvwaanwzbvkl.supabase.co/functions/v1/send-whatsapp-inquiry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    console.warn('WhatsApp notification failed:', await response.text());
+                }
+            } catch (error) {
+                console.error('Error sending WhatsApp notification:', error);
+            }
+        }
+
+        // Activity logging helper
+        async function logActivity(type, data) {
+            try {
+                const response = await fetch('https://licqsiqmhvwaanwzbvkl.supabase.co/functions/v1/log-activity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type, ...data })
+                });
+                
+                if (!response.ok) {
+                    console.warn('Activity logging failed:', await response.text());
+                }
+            } catch (error) {
+                console.error('Error logging activity:', error);
+            }
+        }
+
+        // Form handlers
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+            if (!user) {
+                alert('Invalid email or password!');
+                return;
+            }
+
+            currentUser = { id: user.id, name: user.name, email: user.email };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            // Log activity to database
+            await logActivity('login', { email });
+
+            // Send WhatsApp notification
+            await sendWhatsAppNotification({
+                name: user.name,
+                email: email,
+                service: 'User Login',
+                message: `User logged in: ${email}`
+            });
+
+            updateHeader();
+            showPage('home');
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+
+            if (password !== confirm) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Check if user already exists
+            const existingUser = users.find(user => user.email === email);
+            if (existingUser) {
+                alert('User with this email already exists!');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password, // In real app, hash this
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            currentUser = { id: newUser.id, name: newUser.name, email: newUser.email };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            // Log activity to database
+            await logActivity('signup', { name, email });
+
+            // Send WhatsApp notification
+            await sendWhatsAppNotification({
+                name: name,
+                email: email,
+                service: 'New User Registration',
+                message: `New user signed up: ${name} (${email})`
+            });
+
+            updateHeader();
+            showPage('home');
+        }
+
+        function handleAddItem(event) {
+            event.preventDefault();
+            if (!currentUser) {
+                alert('Please login to add items!');
+                showPage('login');
+                return;
+            }
+
+            const title = document.getElementById('item-title').value;
+            const category = document.getElementById('item-category').value;
+            const price = document.getElementById('item-price').value;
+            const description = document.getElementById('item-description').value;
+            const image = document.getElementById('item-image').value || 'default-item.jpg';
+
+            const newItem = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                image: image,
+                category: category,
+                price: parseFloat(price),
+                userId: currentUser.id
+            };
+
+            services.push(newItem);
+            localStorage.setItem('services', JSON.stringify(services));
+
+            alert('Item "' + title + '" added successfully!');
+            event.target.reset();
+            showPage('home');
+            renderServices();
+        }
+
+        async function handleContact(event) {
+            event.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const service = document.getElementById('contact-service').value;
+            const message = document.getElementById('contact-message').value;
+            
+            // Send WhatsApp notification
+            await sendWhatsAppNotification({
+                name: name,
+                email: email || 'No email provided',
+                service: service,
+                message: message || 'Contact form submission'
+            });
+            
+            alert('Thank you, ' + name + '! Your message has been sent. We will contact you soon about ' + service + '.');
+            event.target.reset();
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Header scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>
